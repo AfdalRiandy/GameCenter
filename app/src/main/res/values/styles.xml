@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundMode">none</item>
+    </style>
+
+    <style name="CustomEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/input_background</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <item name="android:paddingVertical">16dp</item>
+        <item name="android:textColorHint">#757575</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>
