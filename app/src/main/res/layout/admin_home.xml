@@ -14,15 +14,16 @@
         android:layout_margin="16dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="6dp"
-        app:cardBackgroundColor="@color/card_background"
+        app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/oval_background"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="36dp"
-            android:gravity="center_vertical">
+            android:padding="36dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -33,26 +34,26 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selamat Datang"
-                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="Selamat Datang"
                     android:textColor="#666666"
-                    android:layout_marginBottom="4dp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
                     android:text="Admin"
-                    android:textSize="20sp"
                     android:textColor="#0047FF"
-                    android:fontFamily="@font/poppins_bold"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/admin1"
-                android:contentDescription="Admin Icon"/>
+                android:contentDescription="Admin Icon"
+                android:src="@drawable/admin1" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -101,8 +102,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/room"
-                    android:tint="@color/primary"/>
+                    android:src="@drawable/room"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -136,15 +136,14 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/food"
-                    android:tint="@color/primary"/>
+                    android:src="@drawable/food"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="F&B"
+                    android:text="FandB"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@android:color/black"/>
@@ -153,18 +152,5 @@
     </LinearLayout>
 
     <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/nav_background"
-        android:elevation="8dp"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/navbar_menu"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-    admin_home.xml

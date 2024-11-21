@@ -3,20 +3,24 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home"
-        android:title="Home"/>
+        android:title="Home"
+        android:background="@drawable/nav_background"/>
 
     <item
         android:id="@+id/nav_analysis"
         android:icon="@drawable/analysis"
-        android:title="Analysis"/>
+        android:title="Analysis"
+        android:background="@drawable/nav_background"/>
 
     <item
         android:id="@+id/nav_history"
         android:icon="@drawable/berita"
-        android:title="History"/>
+        android:title="History"
+        android:background="@drawable/nav_background"/>
 
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile"
-        android:title="Profile"/>
+        android:title="Profile"
+        android:background="@drawable/nav_background"/>
 </menu>
