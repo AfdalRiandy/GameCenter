@@ -11,6 +11,6 @@ class AdminAnalysisFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.admin_analysis, container, false)
+        return inflater.inflate(R.layout.fragment_admin_analysis, container, false)
     }
 }

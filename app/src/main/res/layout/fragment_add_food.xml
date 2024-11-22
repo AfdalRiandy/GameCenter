@@ -68,12 +68,12 @@
                     android:layout_height="wrap_content"
                     android:text="Pilih Gambar dari Image"
                     android:textAlignment="center"
-                    android:padding="24dp"
+                    android:padding="50dp"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_regular"/>
             </androidx.cardview.widget.CardView>
 
-            <!-- Room Name -->
+            <!-- menu Name -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/roomNameInput"
+                android:id="@+id/FoodNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background"
@@ -102,7 +102,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/roomDescriptionInput"
+                android:id="@+id/FoodDescriptionInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background"
@@ -113,7 +113,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Room Price -->
+            <!-- menu Price -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/roomPriceInput"
+                android:id="@+id/FoodPriceInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background"
@@ -133,9 +133,9 @@
                 android:fontFamily="@font/poppins_regular"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Create Room Button -->
+            <!-- Create menu Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/createRoomButton"
+                android:id="@+id/createFoodButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Buat Menu"

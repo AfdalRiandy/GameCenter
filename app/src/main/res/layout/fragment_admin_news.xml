@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="F&B Menu"
+                android:text="NEWS"
                 android:textSize="20sp"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/poppins_semibold"
@@ -40,9 +40,9 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- food List RecyclerView -->
+    <!-- news List RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/FoodRecyclerView"
+        android:id="@+id/NewsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -67,13 +67,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Add food Button -->
+    <!-- Add News Button -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/addFoodButton"
+        android:id="@+id/addNewsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Tambah Menu"
+        android:text="Tambah Berita"
         android:textAllCaps="false"
         android:padding="12dp"
         android:textSize="16sp"

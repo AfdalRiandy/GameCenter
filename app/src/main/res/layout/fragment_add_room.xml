@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pilih Gambar dari Image"
                     android:textAlignment="center"
-                    android:padding="24dp"
+                    android:padding="50dp"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_regular"/>
             </androidx.cardview.widget.CardView>
