@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <!-- Top Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Back"
+                android:padding="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room Reservasi"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/poppins_semibold"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Image Selection Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageSelectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pilih Gambar dari Image"
+                    android:textAlignment="center"
+                    android:padding="24dp"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Room Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Room"
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/roomNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:hint="VIP 1"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Room Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deskripsi Room"
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/roomDescriptionInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:minHeight="100dp"
+                android:gravity="top"
+                android:hint="Lorem ipsum dolor blablablaa"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Room Price -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Harga"
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/roomPriceInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:hint="Rp. 250.000"
+                android:inputType="number"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Create Room Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createRoomButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buat Ruangan"
+                android:textAllCaps="false"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_medium"
+                app:cornerRadius="8dp"
+                android:backgroundTint="#0047FF"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
