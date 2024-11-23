@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="F&amp;B Order"
                 android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="@color/royal_blue"
                 android:fontFamily="@font/poppins_bold"
                 android:layout_marginStart="16dp" />
         </LinearLayout>

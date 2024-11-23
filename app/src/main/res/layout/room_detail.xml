@@ -3,243 +3,258 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    android:background="@color/white">
+    android:layout_height="match_parent"
+    android:background="@color/background_gradient">
 
-    <!-- Toolbar -->
-    <LinearLayout
-        android:id="@+id/toolbarLayout"
+    <!-- Toolbar Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/toolbarCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:gravity="center_vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_back"
-            android:tint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Room Reservasi"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins_medium"
-            android:layout_marginStart="16dp" />
-    </LinearLayout>
+            android:background="@color/white">
 
-    <!-- Room Image -->
-    <ImageView
-        android:id="@+id/roomImage"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/card_detail"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp">
 
-    <!-- Room Details -->
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription="Back"
+                    android:padding="12dp"
+                    app:tint="@color/royal_blue" />
 
-    <TextView
-        android:id="@+id/roomName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="228dp"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Nama Room"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/roomPrice"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room Reservasi"
+                    android:textSize="20sp"
+                    android:textColor="@color/royal_blue"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/roomPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Rp. Harga Room"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/roomName"
-        app:layout_constraintTop_toTopOf="@id/roomName" />
-
-    <TextView
-        android:id="@+id/roomDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget lorem non magna..."
-        android:textSize="14sp"
-        android:textColor="@color/gray"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/roomPrice"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Package Selection -->
-
-    <TextView
-        android:id="@+id/packageLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="340dp"
-        android:layout_marginEnd="312dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Pilih Paket"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
-
-    <RadioGroup
-        android:id="@+id/packageOptions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/packageLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <RadioButton
-            android:id="@+id/package1Hour"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1 Jam"
-            android:buttonTint="@color/blue"
-            android:textColor="@color/black" />
-
-        <RadioButton
-            android:id="@+id/package2Hour"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2 Jam"
-            android:checked="true"
-            android:buttonTint="@color/blue"
-            android:textColor="@color/black" />
-
-        <RadioButton
-            android:id="@+id/package3Hour"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3 Jam"
-            android:buttonTint="@color/blue"
-            android:textColor="@color/black" />
-    </RadioGroup>
-
-    <!-- Payment Details -->
-
-    <TextView
-        android:id="@+id/paymentLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="350dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Tagihan Pembayaran"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/packageOptions" />
-
-    <TextView
-        android:id="@+id/packageDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Paket 2 Jam"
-        android:textSize="14sp"
-        android:textColor="@color/gray"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@id/paymentLabel"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/packagePrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rp20.000"
-        android:textSize="14sp"
-        android:textColor="@color/gray"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/paymentLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Payment Method -->
-    <TextView
-        android:id="@+id/paymentMethodLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="520dp"
-        android:layout_marginEnd="197dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Metode Pembayaran"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/paymentMethodGroup"
+    <!-- Content Scroll -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/paymentMethodLabel">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarCard"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <RadioButton
-            android:id="@+id/codOption"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:fontFamily="@font/poppins_regular"
-            android:text="COD" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <RadioButton
-            android:id="@+id/comingSoonOption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Coming Soon"
-            android:fontFamily="@font/poppins_regular" />
-    </RadioGroup>
+            <!-- Room Image Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/roomImageCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-    <!-- Book Button -->
-    <Button
-        android:id="@+id/pesanButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@color/blue"
-        android:text="Pesan"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/roomImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/card_detail" />
+            </androidx.cardview.widget.CardView>
 
+            <!-- Room Details Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/roomDetailsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/roomName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Room"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/poppins_medium" />
+
+                    <TextView
+                        android:id="@+id/roomPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. Harga Room"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/roomDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+                        android:textColor="@color/gray"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Package Selection -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/packageSelectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pilih Paket"
+                        android:textColor="@color/royal_blue"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/packageOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/package1Hour"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1 Jam"
+                            android:buttonTint="@color/royal_blue"
+                            android:textColor="@color/black" />
+
+                        <RadioButton
+                            android:id="@+id/package2Hour"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2 Jam"
+                            android:checked="true"
+                            android:buttonTint="@color/royal_blue"
+                            android:textColor="@color/black" />
+
+                        <RadioButton
+                            android:id="@+id/package3Hour"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="3 Jam"
+                            android:buttonTint="@color/royal_blue"
+                            android:textColor="@color/black" />
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Payment Method -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/paymentMethodCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Metode Pembayaran"
+                        android:textColor="@color/royal_blue"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/paymentMethodGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/codOption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="COD"
+                            android:buttonTint="@color/royal_blue"
+                            android:textColor="@color/black" />
+
+                        <RadioButton
+                            android:id="@+id/comingSoonOption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Coming Soon"
+                            android:buttonTint="@color/royal_blue"
+                            android:textColor="@color/black" />
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Reservation Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reserveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pesan Sekarang"
+                android:textAllCaps="false"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginTop="8dp"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/royal_blue"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

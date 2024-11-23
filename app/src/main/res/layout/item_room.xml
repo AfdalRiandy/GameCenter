@@ -4,35 +4,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@drawable/card_background">
 
-        <ImageView
+        <!-- Gambar -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/roomImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            android:layout_marginEnd="16dp" />
 
+        <!-- Informasi Room -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@id/roomImage"
-            app:layout_constraintEnd_toStartOf="@id/nextButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/roomName"
@@ -40,8 +40,10 @@
                 android:layout_height="wrap_content"
                 android:text="Nama Room"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/poppins_medium"/>
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginBottom="4dp" />
 
             <TextView
                 android:id="@+id/roomDescription"
@@ -49,10 +51,11 @@
                 android:layout_height="wrap_content"
                 android:text="Deskripsi Room Disini"
                 android:textSize="14sp"
-                android:textColor="#666666"
+                android:textColor="@color/gray"
                 android:fontFamily="@font/poppins_regular"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
 
             <TextView
                 android:id="@+id/roomPrice"
@@ -60,10 +63,12 @@
                 android:layout_height="wrap_content"
                 android:text="Rp. Harga Room"
                 android:textSize="14sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/poppins_regular"/>
+                android:textStyle="bold"
+                android:textColor="@color/royal_blue"
+                android:fontFamily="@font/poppins_regular" />
         </LinearLayout>
 
+        <!-- Tombol Navigasi -->
         <ImageButton
             android:id="@+id/nextButton"
             android:layout_width="48dp"
@@ -71,9 +76,6 @@
             android:src="@drawable/ic_next"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

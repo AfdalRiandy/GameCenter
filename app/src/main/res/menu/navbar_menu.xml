@@ -21,6 +21,6 @@
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile"
-        android:title="Profile"
+        android:title="Settings"
         android:background="@drawable/nav_background"/>
 </menu>
