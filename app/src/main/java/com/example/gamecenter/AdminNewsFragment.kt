@@ -3,6 +3,6 @@ package com.example.gamecenter
 
 import androidx.fragment.app.Fragment
 
-class AdminHistoryFragment : Fragment(R.layout.fragment_admin_news) {
+class AdminNewsFragment : Fragment(R.layout.fragment_add_food) {
     // Implement fragment behavior here
 }

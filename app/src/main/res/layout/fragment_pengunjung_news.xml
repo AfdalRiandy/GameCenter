@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:hint="Search"
         android:padding="12dp"
-        android:background="@drawable/bg_search_bar"
+        android:background="@drawable/nav_background"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="8dp" />
 

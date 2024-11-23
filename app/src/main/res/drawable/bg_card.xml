@@ -3,7 +3,7 @@
     <corners android:radius="8dp" />
     <shadow
         android:shadowColor="#D3D3D3"
-        android:shadowDx="0dp"
-        android:shadowDy="2dp"
-        android:shadowRadius="4dp" />
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="4" />
 </shape>

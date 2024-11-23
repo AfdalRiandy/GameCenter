@@ -12,91 +12,167 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/tv_settings_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins_bold"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Profile Image -->
-        <ImageView
-            android:id="@+id/iv_profile_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_image"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_shape"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Name -->
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Afdal Riandy"
-            android:textSize="18sp"
-            android:fontFamily="@font/poppins_medium"
-            android:textColor="@color/black"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Edit Profile Button -->
-        <LinearLayout
-            android:id="@+id/btn_edit_profile"
+        <!-- Header Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:background="@drawable/rounded_button_background"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_profile"
-                android:contentDescription="@string/edit_profile_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit Profile"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_regular"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
 
-        <!-- Logout Button -->
-        <LinearLayout
-            android:id="@+id/btn_logout"
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/tv_settings_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Settings"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_bold"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Profile Image Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    app:cardCornerRadius="55dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_profile_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_image"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Name -->
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Afdal Riandy"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Settings Options Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:background="@drawable/rounded_button_background">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_logout"
-                android:contentDescription="@string/logout_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logout"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_regular"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black" />
+                android:orientation="vertical"
+                android:padding="8dp">
 
-        </LinearLayout>
+                <!-- Edit Profile Button -->
+                <LinearLayout
+                    android:id="@+id/btn_edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
 
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="#E8F0FE">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_profile"
+                            android:tint="@color/primary"
+                            android:contentDescription="@string/edit_profile_icon" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Edit Profile"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:tint="#666666"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"/>
+
+                <!-- Logout Button -->
+                <LinearLayout
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="#FEE8E8">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_logout"
+                            android:tint="#FF4D4D"
+                            android:contentDescription="@string/logout_icon" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Logout"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="16dp"
+                        android:textColor="#FF4D4D" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:tint="#666666"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

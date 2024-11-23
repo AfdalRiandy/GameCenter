@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GameCenter</string>
+    <string name="edit_profile_icon">Edit Profile Icon</string>
+    <string name="logout_icon">Logout Icon</string>
 </resources>

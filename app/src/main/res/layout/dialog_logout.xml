@@ -1,66 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_background"
-    android:padding="24dp">
+    android:layout_marginHorizontal="32dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/white">
 
-
-    <!-- Pesan Konfirmasi -->
-    <TextView
-        android:id="@+id/tvConfirmationMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="Apakah Anda yakin ingin keluar?"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Container untuk tombol -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintTop_toBottomOf="@id/tvConfirmationMessage"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:padding="24dp">
 
-        <!-- Tombol Tidak -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancel"
+        <!-- Icon Logout -->
+        <ImageView
+            android:id="@+id/ivLogout"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_logout"
+            android:tint="@color/royal_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Konfirmasi Logout"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintTop_toBottomOf="@id/ivLogout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Confirmation Message -->
+        <TextView
+            android:id="@+id/tvConfirmationMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/gray"
-            android:padding="12dp"
-            android:text="TIDAK"
-            android:textColor="@color/white"
-            app:cornerRadius="8dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+            android:layout_marginTop="16dp"
+            android:text="Apakah Anda yakin ingin keluar dari aplikasi?"
+            android:textAlignment="center"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Tombol Iya -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnConfirm"
-            android:layout_width="0dp"
+        <!-- Button Container -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black"
-            android:padding="12dp"
-            android:text="IYA"
-            android:textColor="@color/white"
-            app:cornerRadius="8dp"/>
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@id/tvConfirmationMessage"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    </LinearLayout>
+            <!-- Cancel Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="BATAL"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:textColor="@color/royal_blue"
+                android:backgroundTint="@color/background_gradient"
+                app:strokeColor="@color/royal_blue"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Confirm Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="KELUAR"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/royal_blue"
+                app:cornerRadius="12dp"
+                app:elevation="2dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
