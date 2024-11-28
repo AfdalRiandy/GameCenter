@@ -1,10 +1,11 @@
-package com.example.gamecenter
+package com.example.gamecenter.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.gamecenter.R
 
 class AdminAnalysisFragment : Fragment() {
     override fun onCreateView(
