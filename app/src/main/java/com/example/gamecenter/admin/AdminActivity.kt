@@ -28,7 +28,7 @@ class AdminActivity : AppCompatActivity() {
                     loadFragment(AdminAnalysisFragment())
                     true
                 }
-                R.id.nav_history -> {
+                R.id.nav_news -> {
                     loadFragment(AdminNewsFragment())
                     true
                 }

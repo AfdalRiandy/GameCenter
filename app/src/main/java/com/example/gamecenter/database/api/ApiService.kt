@@ -1,15 +1,23 @@
 package com.example.gamecenter.database.api
 
-import com.example.gamecenter.database.model.ApiResponse
-import com.example.gamecenter.database.model.LoginRequest
-import com.example.gamecenter.database.model.RegisterRequest
-import com.example.gamecenter.database.model.User
+import com.example.gamecenter.database.model.UserResponse
+import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-    @POST("auth/login")
-    suspend fun login(@Body loginRequest: LoginRequest): ApiResponse<User>
+    @FormUrlEncoded
+    @POST("login.php")
+    fun login(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Call<UserResponse>
 
-    @POST("auth/register")
-    suspend fun register(@Body registerRequest: RegisterRequest): ApiResponse<User>
+    @FormUrlEncoded
+    @POST("register.php")
+    fun register(
+        @Field("email") email: String,
+        @Field("full_name") fullName: String,
+        @Field("password") password: String
+    ): Call<UserResponse>
+
 }

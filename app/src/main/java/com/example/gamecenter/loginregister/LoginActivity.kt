@@ -2,65 +2,106 @@ package com.example.gamecenter.loginregister
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.util.Log
 import android.widget.Toast
+import android.widget.EditText
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gamecenter.R
-import com.example.gamecenter.admin.AdminActivity
-import com.example.gamecenter.pengunjung.PengunjungActivity
-import com.example.gamecenter.database.ApiClient
-import com.example.gamecenter.database.LoginResponse
+import com.example.gamecenter.database.api.ApiClient
+import com.example.gamecenter.database.api.ApiService
+import com.example.gamecenter.database.model.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.gamecenter.R
+import com.example.gamecenter.admin.AdminActivity
+import com.example.gamecenter.pengunjung.UserActivity
+
 
 class LoginActivity : AppCompatActivity() {
-
-    private lateinit var etEmail: EditText
-    private lateinit var etPassword: EditText
-    private lateinit var btnLogin: Button
+    private val apiService = ApiClient.instance.create(ApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        etEmail = findViewById(R.id.etEmail)
-        etPassword = findViewById(R.id.etPassword)
-        btnLogin = findViewById(R.id.btnLogin)
+        val email = findViewById<EditText>(R.id.etEmail)
+        val password = findViewById<EditText>(R.id.etPassword)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val tvRegister = findViewById<TextView>(R.id.tvSignUp)
 
         btnLogin.setOnClickListener {
-            val email = etEmail.text.toString()
-            val password = etPassword.text.toString()
-            loginUser(email, password)
+            val emailText = email.text.toString().trim()
+            val passwordText = password.text.toString().trim()
+
+            // Validasi input
+            if (emailText.isEmpty() || passwordText.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            loginUser(emailText, passwordText)
+        }
+
+        tvRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun loginUser(email: String, password: String) {
-        ApiClient.instance.loginUser(email, password)
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        val userType = response.body()?.userType
-                        when (userType) {
-                            "admin" -> {
-                                val intent = Intent(this@LoginActivity, AdminActivity::class.java)
-                                startActivity(intent)
-                            }
-                            "pengunjung" -> {
-                                val intent = Intent(this@LoginActivity, PengunjungActivity::class.java)
-                                startActivity(intent)
-                            }
-                        }
-                        finish()
-                    } else {
-                        Toast.makeText(this@LoginActivity, response.body()?.message ?: "Login failed", Toast.LENGTH_SHORT).show()
-                    }
+        apiService.login(email, password).enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (!response.isSuccessful) {
+                    val errorBody = response.errorBody()?.string()
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Login failed: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
                 }
 
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Toast.makeText(this@LoginActivity, t.message ?: "Network error", Toast.LENGTH_SHORT).show()
+                val userResponse = response.body()
+
+                if (userResponse?.success == true) {
+                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+
+                    // Simpan data user di SharedPreferences jika perlu
+                    val sharedPreferences = getSharedPreferences("LuminaryPrefs", MODE_PRIVATE)
+                    sharedPreferences.edit().apply {
+                        putString("USER_EMAIL", email)
+                        apply()
+                    }
+
+                    // Navigasi berdasarkan role
+                    val intent = if (userResponse.role == "admin") {
+                        Intent(this@LoginActivity, AdminActivity::class.java)
+                    } else {
+                        Intent(this@LoginActivity, UserActivity::class.java)
+                    }
+
+                    intent.putExtra("USER_EMAIL", email)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        userResponse?.message ?: "Login failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            })
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Network error: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
+
 }
