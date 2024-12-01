@@ -17,7 +17,7 @@ import com.example.gamecenter.R
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val apiService = ApiClient.instance.create(ApiService::class.java)
+    private val apiService = ApiClient.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

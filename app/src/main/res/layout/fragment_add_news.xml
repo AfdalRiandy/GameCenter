@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,7 +37,7 @@
                     android:src="@drawable/ic_back"
                     android:contentDescription="Back"
                     android:padding="12dp"
-                    app:tint="@color/royal_blue"/>
+                    app:tint="@color/royal_blue"/> <!-- Use app:tint instead of android:tint -->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,11 +105,13 @@
                             android:gravity="center">
 
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:id="@+id/selectedImageView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/ic_image"
-                                android:tint="@color/gray"
-                                android:layout_marginBottom="8dp"/>
+                                app:tint="@color/gray"
+                                android:layout_marginBottom="8dp"
+                                android:scaleType="centerInside"/>
 
                             <TextView
                                 android:layout_width="wrap_content"

@@ -68,7 +68,7 @@
                     android:src="@drawable/ic_clock" />
 
                 <TextView
-                    android:id="@+id/publishTime"
+                    android:id="@+id/publishDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="jam publish"
@@ -77,15 +77,6 @@
                     android:fontFamily="@font/poppins_regular"
                     android:layout_marginStart="4dp" />
 
-                <TextView
-                    android:id="@+id/publishDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hari / tanggal"
-                    android:textSize="12sp"
-                    android:textColor="@color/gray"
-                    android:fontFamily="@font/poppins_regular"
-                    android:layout_marginStart="8dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -93,7 +84,7 @@
             android:id="@+id/readMoreButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Baca"
+            android:text="Lihat"
             android:textColor="@color/white"
             android:backgroundTint="@color/royal_blue"
             android:paddingHorizontal="16dp"

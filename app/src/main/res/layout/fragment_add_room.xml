@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Room Reservasi"
+                    android:text="Tambah Room"
                     android:textSize="20sp"
                     android:textColor="@color/royal_blue"
                     android:fontFamily="@font/poppins_semibold"
@@ -92,6 +92,7 @@
                         android:layout_marginBottom="8dp"/>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/selectImageCard"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         app:cardCornerRadius="8dp"
@@ -122,6 +123,17 @@
                                 android:fontFamily="@font/poppins_regular"/>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Selected Image -->
+                    <ImageView
+                        android:id="@+id/selectedImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_image"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Selected Image"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

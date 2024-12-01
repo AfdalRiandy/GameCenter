@@ -2,7 +2,6 @@ package com.example.gamecenter.loginregister
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import android.widget.EditText
 import android.widget.Button
@@ -20,7 +19,7 @@ import com.example.gamecenter.pengunjung.UserActivity
 
 
 class LoginActivity : AppCompatActivity() {
-    private val apiService = ApiClient.instance.create(ApiService::class.java)
+    private val apiService = ApiClient.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
