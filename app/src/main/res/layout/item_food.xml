@@ -14,12 +14,13 @@
         android:padding="12dp">
 
         <ImageView
-            android:id="@+id/roomImage"
+            android:id="@+id/foodImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image"
             app:layout_constraintStart_toStartOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -29,13 +30,13 @@
             android:orientation="vertical"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@id/roomImage"
+            app:layout_constraintStart_toEndOf="@id/foodImage"
             app:layout_constraintEnd_toStartOf="@id/nextButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
-                android:id="@+id/roomName"
+                android:id="@+id/foodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nama Menu"
@@ -44,7 +45,7 @@
                 android:fontFamily="@font/poppins_medium"/>
 
             <TextView
-                android:id="@+id/roomDescription"
+                android:id="@+id/foodDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Deskripsi Menu Disini"
@@ -55,10 +56,10 @@
                 android:ellipsize="end"/>
 
             <TextView
-                android:id="@+id/roomPrice"
+                android:id="@+id/foodPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp. Harga Room"
+                android:text="Rp. Harga Menu"
                 android:textSize="14sp"
                 android:textColor="#666666"
                 android:fontFamily="@font/poppins_regular"/>

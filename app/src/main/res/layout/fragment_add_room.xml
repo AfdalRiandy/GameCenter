@@ -194,8 +194,8 @@
                             android:id="@+id/roomPriceInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:fontFamily="@font/poppins_regular"/>
+                            android:fontFamily="@font/poppins_regular"
+                            android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

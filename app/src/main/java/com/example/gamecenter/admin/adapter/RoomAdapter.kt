@@ -2,11 +2,11 @@ package com.example.gamecenter.admin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.gamecenter.database.model.Room
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.Glide
 import com.example.gamecenter.databinding.ItemRoomBinding
 
 class RoomAdapter : ListAdapter<Room, RoomAdapter.RoomViewHolder>(RoomDiffCallback()) {
@@ -23,11 +23,11 @@ class RoomAdapter : ListAdapter<Room, RoomAdapter.RoomViewHolder>(RoomDiffCallba
 
     inner class RoomViewHolder(private val binding: ItemRoomBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(room: Room) {
-            binding.roomName.text = room.roomName
-            binding.roomDescription.text = room.roomDescription
-            binding.roomPrice.text = "Rp ${room.roomPrice}"
+            binding.roomName.text = room.room_name
+            binding.roomDescription.text = room.room_description
+            binding.roomPrice.text = room.room_price
             Glide.with(binding.root.context)
-                .load(room.imageUrl)
+                .load(room.image_url)
                 .into(binding.roomImage)
         }
     }

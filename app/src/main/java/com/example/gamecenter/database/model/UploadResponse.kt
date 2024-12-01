@@ -1,5 +1,6 @@
 package com.example.gamecenter.database.model
 
 data class UploadResponse(
-    val imageUrl: String
+    val success: Boolean,
+    val imageUrl: String?
 )

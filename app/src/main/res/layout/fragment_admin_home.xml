@@ -53,10 +53,10 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="Admin Icon"
-                android:src="@drawable/admin1" />
+                android:src="@drawable/admin2" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

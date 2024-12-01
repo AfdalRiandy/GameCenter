@@ -1,5 +1,6 @@
 package com.example.gamecenter.loginregister
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -15,8 +16,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.gamecenter.R
 import com.example.gamecenter.admin.AdminActivity
+import com.example.gamecenter.database.model.User
 import com.example.gamecenter.pengunjung.UserActivity
-
 
 class LoginActivity : AppCompatActivity() {
     private val apiService = ApiClient.instance
@@ -65,14 +66,11 @@ class LoginActivity : AppCompatActivity() {
                 val userResponse = response.body()
 
                 if (userResponse?.success == true) {
-                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT)
+                        .show()
 
-                    // Simpan data user di SharedPreferences jika perlu
-                    val sharedPreferences = getSharedPreferences("LuminaryPrefs", MODE_PRIVATE)
-                    sharedPreferences.edit().apply {
-                        putString("USER_EMAIL", email)
-                        apply()
-                    }
+                    // Setelah login berhasil, panggil API untuk mendapatkan data pengguna
+                    getUserDataFromApi(email)
 
                     // Navigasi berdasarkan role
                     val intent = if (userResponse.role == "admin") {
@@ -103,4 +101,36 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    // Menambahkan method untuk mengambil data pengguna berdasarkan email
+    private fun getUserDataFromApi(email: String) {
+        apiService.getUserData(email).enqueue(object : Callback<List<User>> {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                if (response.isSuccessful) {
+                    val user = response.body()?.firstOrNull()
+
+                    // Simpan full_name ke SharedPreferences
+                    val sharedPreferences = getSharedPreferences("LuminaryPrefs", MODE_PRIVATE)
+                    sharedPreferences.edit().apply {
+                        putString("USER_NAME", user?.full_name)
+                        apply()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Failed to fetch user data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Error fetching user data: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
 }
+

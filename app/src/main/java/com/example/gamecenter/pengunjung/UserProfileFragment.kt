@@ -1,16 +1,25 @@
 package com.example.gamecenter.pengunjung
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
+import com.example.gamecenter.EditProfileActivity
 import com.example.gamecenter.R
+import com.example.gamecenter.database.api.ApiClient
+import com.example.gamecenter.database.model.User
 import com.example.gamecenter.databinding.FragmentSettingsBinding
 import com.example.gamecenter.databinding.DialogLogoutBinding
 import com.example.gamecenter.loginregister.LoginActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserProfileFragment : Fragment(R.layout.fragment_settings) {
 
@@ -28,6 +37,14 @@ class UserProfileFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Mengambil email yang disimpan di SharedPreferences setelah login
+        val email = getLoggedInUserEmail()
+
+        // Jika email tidak kosong, lakukan pemanggilan API untuk mendapatkan data pengguna
+        if (email.isNotEmpty()) {
+            loadUserData(email) // Panggil API untuk mendapatkan data pengguna berdasarkan email
+        }
+
         // Set up the logout button click listener
         binding.btnLogout.setOnClickListener {
             showLogoutDialog()
@@ -35,11 +52,49 @@ class UserProfileFragment : Fragment(R.layout.fragment_settings) {
 
         // Set up other actions like Edit Profile
         binding.btnEditProfile.setOnClickListener {
-            // Handle Edit Profile action
+            val intent = Intent(requireContext(), EditProfileActivity::class.java) // Use requireContext() here
+            startActivity(intent)
         }
     }
 
-    // Function to show the logout confirmation dialog
+    private fun loadUserData(email: String) {
+        val apiService = ApiClient.instance
+        apiService.getUserData(email).enqueue(object : Callback<List<User>> {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                if (response.isSuccessful) {
+                    val user = response.body()?.firstOrNull()
+                    if (user != null) {
+                        updateUI(user)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateUI(user: User) {
+        // Set the user's full name
+        binding.tvUserName.text = user.full_name
+
+        // Set the user's profile image (you can use Glide or Picasso to load an image)
+        val profileImageUrl = "https://yourserver.com/images/${user.email}.jpg" // Replace with actual path
+        Glide.with(requireContext())
+            .load(profileImageUrl)
+            .placeholder(R.drawable.ic_image) // Placeholder while loading
+            .error(R.drawable.ic_image) // Error image
+            .into(binding.tvProfilePicture)
+    }
+
+    private fun getLoggedInUserEmail(): String {
+        val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("USER_EMAIL", "") ?: ""
+    }
+
     private fun showLogoutDialog() {
         // Inflate the dialog view
         val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
@@ -61,6 +116,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_settings) {
             startActivity(intent)
             activity?.finish() // Optional: Close the current activity to prevent user from going back
         }
+
 
         // Show the dialog
         dialog.show()
