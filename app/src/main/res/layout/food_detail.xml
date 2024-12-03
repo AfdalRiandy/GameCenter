@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="F&amp;B Order"
+                android:text="Food Order"
                 android:textSize="20sp"
                 android:textColor="@color/royal_blue"
                 android:fontFamily="@font/poppins_bold"
@@ -73,7 +73,7 @@
                     app:cardElevation="2dp">
 
                     <ImageView
-                        android:id="@+id/roomImage"
+                        android:id="@+id/foodImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
@@ -94,7 +94,7 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:id="@+id/roomName"
+                            android:id="@+id/foodName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -104,7 +104,7 @@
                             android:textSize="20sp"/>
 
                         <TextView
-                            android:id="@+id/roomPrice"
+                            android:id="@+id/foodPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
@@ -114,7 +114,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/roomDescription"
+                        android:id="@+id/foodDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -185,7 +185,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/pesanButton"
+            android:id="@+id/reserveButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_margin="16dp"

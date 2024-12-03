@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gamecenter.database.api.ApiClient
 import com.example.gamecenter.databinding.FragmentPengunjungNewsBinding
-import com.example.gamecenter.pengunjung.adapter.NewsAdapter
 import com.example.gamecenter.database.model.NewsResponse
 import com.example.gamecenter.R
+import com.example.gamecenter.pengunjung.adapter.NewsAdapter
 import com.example.gamecenter.database.model.News
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,7 +38,7 @@ class UserNewsFragment : Fragment(R.layout.fragment_pengunjung_news) {
         super.onViewCreated(view, savedInstanceState)
 
         // Set up RecyclerView
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(parentFragmentManager)
         binding.rvNews.apply { // Use 'rvNews' from the XML layout
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter

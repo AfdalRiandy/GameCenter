@@ -33,6 +33,7 @@ class AdminFood : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupBackButton()
 
         // Tombol Add Food
         addFoodButton = binding.addFoodButton
@@ -47,6 +48,13 @@ class AdminFood : Fragment() {
 
         // Ambil data foods dari API
         loadFoods()
+    }
+
+
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun setupRecyclerView() {

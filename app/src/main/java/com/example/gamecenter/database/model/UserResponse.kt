@@ -5,5 +5,5 @@ data class UserResponse(
     val user_id: Int? = null,
     val email: String? = null,
     val message: String? = null,
-    val role: String? = null
+    val role: String? = null,
 )

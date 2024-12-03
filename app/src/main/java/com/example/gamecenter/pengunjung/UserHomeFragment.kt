@@ -10,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamecenter.R
-import com.example.gamecenter.database.api.ApiService
 import com.example.gamecenter.database.api.ApiClient
-import com.example.gamecenter.database.model.News
 import com.example.gamecenter.database.model.NewsResponse
+import com.example.gamecenter.food.UserFood
 import com.example.gamecenter.pengunjung.adapter.NewsAdapter
-import com.example.gamecenter.food.FoodActivity
-import com.example.gamecenter.room.RoomActivity
+import com.example.gamecenter.room.UserRoom
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +40,9 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
         // Initialize RecyclerView for news
         val newsRecyclerView = view.findViewById<RecyclerView>(R.id.newsRecyclerView)
         newsRecyclerView.layoutManager = LinearLayoutManager(context)
-        newsAdapter = NewsAdapter()
+
+        // Pass parentFragmentManager when creating NewsAdapter
+        newsAdapter = NewsAdapter(parentFragmentManager)
         newsRecyclerView.adapter = newsAdapter
 
         // Load the news from the API
@@ -51,14 +51,14 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
         // Room service card listener
         val roomServiceCard = view.findViewById<View>(R.id.roomServiceCard)
         roomServiceCard.setOnClickListener {
-            val intent = Intent(requireContext(), RoomActivity::class.java)
+            val intent = Intent(requireContext(), UserRoom::class.java)
             startActivity(intent)
         }
 
         // Food service card listener
         val foodServiceCard = view.findViewById<View>(R.id.foodServiceCard)
         foodServiceCard.setOnClickListener {
-            val intent = Intent(requireContext(), FoodActivity::class.java)
+            val intent = Intent(requireContext(), UserFood::class.java)
             startActivity(intent)
         }
     }
@@ -70,15 +70,16 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
                 if (response.isSuccessful) {
                     val newsResponse = response.body()
                     if (newsResponse != null && newsResponse.success) {
-                        val newsList = newsResponse.data
-                        if (newsList.isNullOrEmpty()) {
-                            // Show a message if no news is available
-                            view?.findViewById<View>(R.id.emptyStateText)?.visibility = View.VISIBLE
+                        // Take only the first 3 news items
+                        val limitedNewsList = newsResponse.data?.take(3)
+
+                        if (limitedNewsList.isNullOrEmpty()) {
+                            // Hide the RecyclerView or show an empty state if no news
+                            view?.findViewById<RecyclerView>(R.id.newsRecyclerView)?.visibility = View.GONE
                         } else {
-                            // Limit to the first 3 news items
-                            val limitedNewsList = newsList.take(3)
+                            // Submit the limited list to the adapter
                             newsAdapter.submitList(limitedNewsList)
-                            view?.findViewById<View>(R.id.emptyStateText)?.visibility = View.GONE
+                            view?.findViewById<RecyclerView>(R.id.newsRecyclerView)?.visibility = View.VISIBLE
                         }
                     } else {
                         Toast.makeText(context, "Error: ${newsResponse?.message}", Toast.LENGTH_SHORT).show()
@@ -93,4 +94,5 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
             }
         })
     }
+
 }

@@ -12,13 +12,14 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gamecenter.database.api.ApiClient
-import com.example.gamecenter.database.api.ApiService
 import com.example.gamecenter.database.model.RoomResponse
 import com.example.gamecenter.database.model.UploadResponse
 import com.example.gamecenter.databinding.FragmentAddRoomBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -65,6 +66,17 @@ class FragmentAddRoom : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupBackButton()
+    }
+
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
     private fun pickImage() {
         // Open image picker functionality
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -84,7 +96,7 @@ class FragmentAddRoom : Fragment() {
     private fun uploadImage(imageUri: Uri?) {
         if (imageUri != null) {
             val file = File(getRealPathFromURI(imageUri))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             // Corrected reference to ApiClient.instance
@@ -93,7 +105,7 @@ class FragmentAddRoom : Fragment() {
             call.enqueue(object : Callback<UploadResponse> {
                 override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
                     if (response.isSuccessful) {
-                        selectedImageUrl = response.body()?.imageUrl
+                        selectedImageUrl = response.body()?.image_url
                     } else {
                         Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
                     }

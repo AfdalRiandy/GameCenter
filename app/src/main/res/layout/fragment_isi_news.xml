@@ -68,7 +68,7 @@
                     android:layout_margin="8dp">
 
                     <ImageView
-                        android:id="@+id/iv_news_image"
+                        android:id="@+id/news_image"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
@@ -84,6 +84,7 @@
 
                     <!-- News Title -->
                     <TextView
+                        android:id="@+id/news_judul"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="News Title"
@@ -94,6 +95,7 @@
 
                     <!-- News Date -->
                     <TextView
+                        android:id="@+id/news_tanggal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23 November 2024"
@@ -103,7 +105,7 @@
 
                     <!-- News Content -->
                     <TextView
-                        android:id="@+id/tv_news_content"
+                        android:id="@+id/news_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Lorem Ipsum is simply dummy text..."

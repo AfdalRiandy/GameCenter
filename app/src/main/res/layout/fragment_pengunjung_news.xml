@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="@drawable/background"
     tools:context=".pengunjung.UserNewsFragment">
 
     <!-- Search Bar -->

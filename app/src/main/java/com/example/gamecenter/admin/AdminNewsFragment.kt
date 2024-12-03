@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gamecenter.FragmentIsiNews
 import com.example.gamecenter.admin.adapter.NewsAdapter
 import com.example.gamecenter.database.api.ApiClient
 import com.example.gamecenter.databinding.FragmentAdminNewsBinding
@@ -18,6 +19,7 @@ import com.example.gamecenter.database.model.NewsResponse
 class AdminNewsFragment : Fragment() {
     private var _binding: FragmentAdminNewsBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
@@ -38,7 +40,7 @@ class AdminNewsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(parentFragmentManager)
         binding.NewsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter
@@ -54,16 +56,17 @@ class AdminNewsFragment : Fragment() {
         }
     }
 
+
     private fun loadNews() {
-        ApiClient.instance.getNews().enqueue(object : retrofit2.Callback<NewsResponse> { // Change callback type to NewsResponse
+        ApiClient.instance.getNews().enqueue(object : retrofit2.Callback<NewsResponse> {
             override fun onResponse(
                 call: retrofit2.Call<NewsResponse>,
                 response: retrofit2.Response<NewsResponse>
             ) {
                 if (response.isSuccessful) {
                     val newsResponse = response.body()
-                    if (newsResponse != null && newsResponse.success) { // Check if response is successful
-                        val news = newsResponse.data // Get the list of news from 'data' field
+                    if (newsResponse != null && newsResponse.success) {
+                        val news = newsResponse.data
                         if (news != null) {
                             newsAdapter.submitList(news)
                             binding.emptyStateText.visibility =

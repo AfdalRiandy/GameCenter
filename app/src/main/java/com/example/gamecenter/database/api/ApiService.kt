@@ -1,6 +1,7 @@
 package com.example.gamecenter.database.api
 
 import com.example.gamecenter.database.model.*
+import com.example.gamecenter.model.BookingHistory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -25,6 +26,7 @@ interface ApiService {
     @GET("get_user_data.php")
     fun getUserData(@Query("email") email: String): Call<List<User>>
 
+
     @FormUrlEncoded
     @POST("update_profile.php")
     fun updateProfile(
@@ -44,19 +46,42 @@ interface ApiService {
     @GET("get_rooms.php")
     fun getRooms(): Call<RoomResponse>
 
+    @POST("book_room.php")
+    fun bookRoom(@Body booking: RoomBooking): Call<RoomBookingResponse>
+
+    @GET("get_booking_history.php")
+    fun getBookingHistory(): Call<List<BookingHistory>>
+
+    @FormUrlEncoded
+    @POST("add_food.php")
+    fun addFood(
+        @Field("food_name") foodName: String,
+        @Field("food_description") foodDescription: String,
+        @Field("food_price") foodPrice: Double,
+        @Field("image_url") imageUrl: String?
+    ): Call<FoodResponse>
+
+    @POST("book_food.php")
+    fun bookFood(@Body booking: FoodBooking): Call<FoodBookingResponse>
+
     @GET("get_foods.php")
     fun getFoods(): Call<FoodResponse>
 
     @Multipart
     @POST("upload_image.php")
-    fun uploadImage(@Part image: MultipartBody.Part): Call<UploadResponse>
+    fun uploadImage(@Part file: MultipartBody.Part): Call<UploadResponse>
 
     @GET("get_news.php")
     fun getNews(): Call<NewsResponse>
 
     @POST("add_news.php")
-    fun addNews(@Body news: News): Call<News>
+    fun addNews(@Body news: News): Call<NewsResponse>
 
+    @GET("get_room_bookings.php")
+    fun getRoomBookings(): Call<List<RoomBooking>>
+
+    @GET("get_food_bookings.php")
+    fun getFoodBookings(): Call<List<FoodBooking>>
 
 
 }

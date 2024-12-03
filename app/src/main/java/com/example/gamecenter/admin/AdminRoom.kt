@@ -29,10 +29,12 @@ class AdminRoom : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupBackButton()
 
         // Tombol Add Room
         addRoomButton = binding.addRoomButton
@@ -47,6 +49,12 @@ class AdminRoom : Fragment() {
 
         // Ambil data rooms dari API
         loadRoom()
+    }
+
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun setupRecyclerView() {
