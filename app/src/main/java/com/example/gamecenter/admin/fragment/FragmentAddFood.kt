@@ -34,11 +34,12 @@ class FragmentAddFood : Fragment() {
     private lateinit var foodNameInput: TextInputEditText
     private lateinit var foodDescriptionInput: TextInputEditText
     private lateinit var foodPriceInput: TextInputEditText
-    private lateinit var selectImageCard: MaterialCardView
     private lateinit var selectedImageView: ImageView
     private lateinit var createFoodButton: MaterialButton
+    private lateinit var uploadImageButton: MaterialButton
 
     private var selectedImageUrl: String? = null
+    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,15 +48,16 @@ class FragmentAddFood : Fragment() {
         // Inflate binding
         binding = FragmentAddFoodBinding.inflate(inflater, container, false)
 
+        // Initialize all views
         foodNameInput = binding.FoodNameInput
         foodDescriptionInput = binding.FoodDescriptionInput
         foodPriceInput = binding.FoodPriceInput
-        selectImageCard = binding.selectImageCard
         selectedImageView = binding.selectedImageView
         createFoodButton = binding.createFoodButton
+        uploadImageButton = binding.uploadImageButton  // Add this line
 
-        selectImageCard.setOnClickListener {
-            // Open image picker
+        // Set up button listeners
+        uploadImageButton.setOnClickListener {
             pickImage()
         }
 
@@ -78,63 +80,99 @@ class FragmentAddFood : Fragment() {
     }
 
     private fun pickImage() {
-        // Open image picker functionality
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri = data.data
-            selectedImageView.setImageURI(imageUri)
-            // Upload image and get the URL
-            uploadImage(imageUri)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            selectedImageUri = data.data
+            selectedImageUri?.let { uri ->
+                // Set image to ImageView
+                selectedImageView.setImageURI(uri)
+                uploadImageButton.visibility = View.GONE
+                selectedImageView.visibility = View.VISIBLE
+
+                // Upload image
+                uploadImage(uri)
+            }
         }
     }
 
     private fun uploadImage(imageUri: Uri?) {
         if (imageUri != null) {
-            val file = File(getRealPathFromURI(imageUri))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+            try {
+                // Get the actual file path
+                val file = File(getRealPathFromURI(imageUri))
 
-            // Corrected reference to ApiClient.instance
-            val apiService = ApiClient.instance
-            val call = apiService.uploadImage(body)
-            call.enqueue(object : Callback<UploadResponse> {
-                override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
-                    if (response.isSuccessful) {
-                        selectedImageUrl = response.body()?.image_url
-                    } else {
-                        Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
+                // Create RequestBody and MultipartBody.Part
+                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                // Call API to upload image
+                val apiService = ApiClient.instance
+                val call = apiService.uploadImage(body)
+
+                call.enqueue(object : Callback<UploadResponse> {
+                    override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
+                        if (response.isSuccessful && response.body()?.success == true) {
+                            // Save the image URL returned from the server
+                            selectedImageUrl = response.body()?.image_url
+                            Toast.makeText(context, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
-                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error processing image: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(context, "No image selected", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun createFood() {
-        val foodName = foodNameInput.text.toString()
-        val foodDescription = foodDescriptionInput.text.toString()
-        val foodPrice = foodPriceInput.text.toString().toDouble()
+        // Validate inputs
+        val foodName = foodNameInput.text.toString().trim()
+        val foodDescription = foodDescriptionInput.text.toString().trim()
 
-        // Corrected reference to ApiClient.instance
+        // Validate that all fields are filled
+        if (foodName.isEmpty() || foodDescription.isEmpty() || foodPriceInput.text.isNullOrEmpty()) {
+            Toast.makeText(context, "Harap isi semua field", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val foodPrice = try {
+            foodPriceInput.text.toString().toDouble()
+        } catch (e: NumberFormatException) {
+            Toast.makeText(context, "Harga tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate image is uploaded
+        if (selectedImageUrl.isNullOrEmpty()) {
+            Toast.makeText(context, "Harap upload gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Proceed with food creation
         val apiService = ApiClient.instance
         val call = apiService.addFood(foodName, foodDescription, foodPrice, selectedImageUrl)
         call.enqueue(object : Callback<FoodResponse> {
             override fun onResponse(call: Call<FoodResponse>, response: Response<FoodResponse>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Food added successfully", Toast.LENGTH_SHORT).show()
-                    // Redirect or update UI
+                    Toast.makeText(context, "Makanan berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                    // Optional: Clear inputs or navigate away
+                    clearInputs()
                 } else {
-                    Toast.makeText(context, "Failed to add food", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Gagal menambahkan makanan", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -144,14 +182,25 @@ class FragmentAddFood : Fragment() {
         })
     }
 
+    private fun clearInputs() {
+        foodNameInput.text?.clear()
+        foodDescriptionInput.text?.clear()
+        foodPriceInput.text?.clear()
+        selectedImageView.setImageURI(null)
+        selectedImageView.visibility = View.GONE
+        uploadImageButton.visibility = View.VISIBLE
+        selectedImageUrl = null
+        selectedImageUri = null
+    }
 
     private fun getRealPathFromURI(uri: Uri): String {
-        val cursor = activity?.contentResolver?.query(uri, null, null, null, null)
-        cursor?.moveToFirst()
-        val columnIndex = cursor?.getColumnIndex(MediaStore.Images.Media.DATA)
-        val filePath = cursor?.getString(columnIndex ?: 0)
-        cursor?.close()
-        return filePath ?: ""
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = activity?.contentResolver?.query(uri, projection, null, null, null)
+        return cursor?.use {
+            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            it.moveToFirst()
+            it.getString(columnIndex)
+        } ?: ""
     }
 
     companion object {

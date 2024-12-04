@@ -36,10 +36,9 @@ class FoodAdapter(
             foodPrice.text = "Rp. ${food.food_price}"
 
             // Load gambar menggunakan Glide
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
             Glide.with(itemView.context)
-                .load(food.image_url)
-                .placeholder(R.drawable.ic_image)
-                .error(R.drawable.ic_image)
+                .load(imageUrl + food.image_url)
                 .into(foodImage)
 
             // Set click listener untuk tombol "Pesan"

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.gamecenter.AboutActivity
 import com.example.gamecenter.EditProfileActivity
 import com.example.gamecenter.R
 import com.example.gamecenter.database.api.ApiClient
@@ -51,8 +52,8 @@ class AdminProfileFragment : Fragment(R.layout.fragment_settings) {
         }
 
         // Set up other actions like Edit Profile
-        binding.btnEditProfile.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfileActivity::class.java) // Use requireContext() here
+        binding.btnAboutapp.setOnClickListener {
+            val intent = Intent(requireContext(), AboutActivity::class.java) // Use requireContext() here
             startActivity(intent)
         }
     }
@@ -80,14 +81,6 @@ class AdminProfileFragment : Fragment(R.layout.fragment_settings) {
     private fun updateUI(user: User) {
         // Set the user's full name
         binding.tvUserName.text = user.full_name
-
-        // Set the user's profile image (you can use Glide or Picasso to load an image)
-        val profileImageUrl = "https://yourserver.com/images/${user.email}.jpg" // Replace with actual path
-        Glide.with(requireContext())
-            .load(profileImageUrl)
-            .placeholder(R.drawable.ic_image) // Placeholder while loading
-            .error(R.drawable.ic_image) // Error image
-            .into(binding.tvProfilePicture)
     }
 
     private fun getLoggedInUserEmail(): String {

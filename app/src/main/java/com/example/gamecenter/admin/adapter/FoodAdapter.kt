@@ -26,8 +26,10 @@ class FoodAdapter : ListAdapter<Food, FoodAdapter.FoodViewHolder>(FoodDiffCallba
             binding.foodName.text = food.food_name
             binding.foodDescription.text = food.food_description
             binding.foodPrice.text = "Rp. ${food.food_price}"
+
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
             Glide.with(binding.root.context)
-                .load(food.image_url)
+                .load(imageUrl + food.image_url)
                 .into(binding.foodImage)
         }
     }

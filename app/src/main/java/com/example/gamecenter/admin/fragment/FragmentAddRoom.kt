@@ -34,9 +34,9 @@ class FragmentAddRoom : Fragment() {
     private lateinit var roomNameInput: TextInputEditText
     private lateinit var roomDescriptionInput: TextInputEditText
     private lateinit var roomPriceInput: TextInputEditText
-    private lateinit var selectImageCard: MaterialCardView
     private lateinit var selectedImageView: ImageView
     private lateinit var createRoomButton: MaterialButton
+    private lateinit var uploadImageButton: MaterialButton
 
     private var selectedImageUrl: String? = null
 
@@ -50,12 +50,11 @@ class FragmentAddRoom : Fragment() {
         roomNameInput = binding.roomNameInput
         roomDescriptionInput = binding.roomDescriptionInput
         roomPriceInput = binding.roomPriceInput
-        selectImageCard = binding.selectImageCard
         selectedImageView = binding.selectedImageView
         createRoomButton = binding.createRoomButton
+        uploadImageButton = binding.uploadImageButton
 
-        selectImageCard.setOnClickListener {
-            // Open image picker
+        uploadImageButton.setOnClickListener {
             pickImage()
         }
 
@@ -88,7 +87,8 @@ class FragmentAddRoom : Fragment() {
         if (resultCode == Activity.RESULT_OK && data != null) {
             val imageUri = data.data
             selectedImageView.setImageURI(imageUri)
-            // Upload image and get the URL
+            uploadImageButton.visibility = View.GONE
+            selectedImageView.visibility = View.VISIBLE
             uploadImage(imageUri)
         }
     }
@@ -99,15 +99,16 @@ class FragmentAddRoom : Fragment() {
             val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-            // Corrected reference to ApiClient.instance
             val apiService = ApiClient.instance
             val call = apiService.uploadImage(body)
             call.enqueue(object : Callback<UploadResponse> {
                 override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        // Simpan nama file sebagai URL gambar
                         selectedImageUrl = response.body()?.image_url
+                        Toast.makeText(context, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -116,7 +117,7 @@ class FragmentAddRoom : Fragment() {
                 }
             })
         } else {
-            Toast.makeText(context, "No image selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show()
         }
     }
 

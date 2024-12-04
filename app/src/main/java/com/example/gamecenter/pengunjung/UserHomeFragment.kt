@@ -31,7 +31,7 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
         userNameTextView = view.findViewById(R.id.userName)
 
         // Get the user name from SharedPreferences
-        val sharedPreferences = requireActivity().getSharedPreferences("LuminaryPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getSharedPreferences("GameCenterPrefs", Context.MODE_PRIVATE)
         val userName = sharedPreferences.getString("USER_NAME", "User")  // Default to "User" if no name found
 
         // Display the user name

@@ -2,4 +2,6 @@
     <string name="app_name">GameCenter</string>
     <string name="edit_profile_icon">Edit Profile Icon</string>
     <string name="logout_icon">Logout Icon</string>
+    <string name="app_description">GameCenter adalah platform revolusioner yang merevolusi cara para game enthusiast berinteraksi dengan dunia gaming. Lebih dari sekadar tempat bermain game, GameCenter adalah ekosistem lengkap yang menghubungkan passion, komunitas, dan pengalaman gaming.</string>
+
 </resources>

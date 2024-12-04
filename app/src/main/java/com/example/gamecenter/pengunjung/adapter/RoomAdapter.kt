@@ -34,11 +34,11 @@ class RoomAdapter(
             roomPrice.text = "Rp. ${room.room_price} / jam"
 
             // Load image using Glide
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
             Glide.with(itemView.context)
-                .load(room.image_url)
-                .placeholder(R.drawable.ic_image)
-                .error(R.drawable.ic_image)
+                .load(imageUrl + room.image_url)
                 .into(roomImage)
+
 
             // Set click listener for booking button
             pesanButton.setOnClickListener {

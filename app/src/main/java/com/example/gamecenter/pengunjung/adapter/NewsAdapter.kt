@@ -32,8 +32,9 @@ class NewsAdapter(
         fun bind(news: News) {
             binding.newsTitle.text = news.title
             binding.newsSubtitle.text = news.content
-            Glide.with(binding.root.context)
-                .load(news.image_url)
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
+            Glide.with(itemView.context)
+                .load(imageUrl + news.image_url)
                 .into(binding.newsImage)
             binding.publishDate.text = news.timestamp
 

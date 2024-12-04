@@ -25,9 +25,11 @@ class RoomAdapter : ListAdapter<Room, RoomAdapter.RoomViewHolder>(RoomDiffCallba
         fun bind(room: Room) {
             binding.roomName.text = room.room_name
             binding.roomDescription.text = room.room_description
-            binding.roomPrice.text = room.room_price
+            binding.roomPrice.text = "Rp. ${room.room_price}"
+
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
             Glide.with(binding.root.context)
-                .load(room.image_url)
+                .load(imageUrl + room.image_url)
                 .into(binding.roomImage)
         }
     }

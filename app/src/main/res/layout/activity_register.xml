@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <!-- ScrollView untuk membuat layout dapat di-scroll -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,8 +62,8 @@
                     android:id="@+id/tilFullName"
                     style="@style/CustomTextInputLayout"
                     android:layout_marginBottom="16dp"
-                    app:endIconDrawable="@drawable/ic_person"
-                    app:endIconMode="custom">
+                    app:startIconDrawable="@drawable/ic_person"
+                    app:startIconTint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFullName"
@@ -78,8 +77,8 @@
                     android:id="@+id/tilEmail"
                     style="@style/CustomTextInputLayout"
                     android:layout_marginBottom="16dp"
-                    app:endIconDrawable="@drawable/ic_email"
-                    app:endIconMode="custom">
+                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconTint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
@@ -93,7 +92,8 @@
                     android:id="@+id/tilPassword"
                     style="@style/CustomTextInputLayout"
                     android:layout_marginBottom="16dp"
-                    app:endIconDrawable="@drawable/ic_lock"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="#757575"
                     app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -108,7 +108,8 @@
                     android:id="@+id/tilConfirmPassword"
                     style="@style/CustomTextInputLayout"
                     android:layout_marginBottom="16dp"
-                    app:endIconDrawable="@drawable/ic_lock"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="#757575"
                     app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText

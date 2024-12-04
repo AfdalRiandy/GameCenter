@@ -9,5 +9,5 @@ data class FoodBooking(
     val foodName: String,
     val bookingDateTime: String,
     val paymentMethod: String,
-    val totalPrice: String
+    val totalPrice: Double
 ) : Parcelable

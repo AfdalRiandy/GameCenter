@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +21,7 @@ import com.example.gamecenter.database.model.News
 import com.example.gamecenter.database.model.NewsResponse
 import com.example.gamecenter.database.model.UploadResponse
 import com.example.gamecenter.databinding.FragmentAddNewsBinding
+import com.google.android.material.button.MaterialButton
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -34,6 +36,7 @@ class FragmentAddNews : Fragment() {
     private var _binding: FragmentAddNewsBinding? = null
     private val binding get() = _binding!!
     private var selectedImageUri: Uri? = null
+    private var selectedImageUrl: String? = null
     private val PICK_IMAGE_REQUEST = 1
     private val STORAGE_PERMISSION_CODE = 100
 
@@ -49,39 +52,64 @@ class FragmentAddNews : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkStoragePermission()
-        setupImageSelection()
+        setupImageUpload()
         setupCreateButton()
         setupBackButton()
+        checkStoragePermission()
     }
 
-    private fun setupBackButton() {
-        binding.backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+    private fun setupImageUpload() {
+        binding.uploadImageButton.setOnClickListener {
+            openImagePicker()
         }
     }
 
-    private fun checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ),
-                STORAGE_PERMISSION_CODE
-            )
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            selectedImageUri = data.data
+
+            // Use Glide to load the image
+            selectedImageUri?.let { uri ->
+                Glide.with(this)
+                    .load(uri)
+                    .into(binding.selectedImageView)
+
+                binding.uploadImageButton.visibility = View.GONE
+                binding.selectedImageView.visibility = View.VISIBLE
+
+                // Upload the image
+                uploadImage(uri)
+            }
         }
     }
 
-    private fun setupImageSelection() {
-        binding.imageSelectionCard.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    private fun uploadImage(imageUri: Uri?) {
+        imageUri?.let { uri ->
+            val file = File(getRealPathFromURI(uri))
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+            val apiService = ApiClient.instance
+            apiService.uploadImage(body).enqueue(object : Callback<UploadResponse> {
+                override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        selectedImageUrl = response.body()?.image_url
+                        Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Failed to upload image", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                    Toast.makeText(context, "Image upload failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 
@@ -90,40 +118,14 @@ class FragmentAddNews : Fragment() {
             val title = binding.NewsNameInput.text.toString()
             val content = binding.NewsDescriptionInput.text.toString()
 
-            if (title.isEmpty() || content.isEmpty() || selectedImageUri == null) {
-                Toast.makeText(context, "Please fill all fields and select an image", Toast.LENGTH_SHORT).show()
+            if (title.isEmpty() || content.isEmpty() || selectedImageUrl.isNullOrEmpty()) {
+                Toast.makeText(context, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Upload image first
-            uploadImage()
+            // Create news with the uploaded image URL
+            createNews(selectedImageUrl!!)
         }
-    }
-
-    private fun uploadImage() {
-        val imageFile = File(getRealPathFromURI(selectedImageUri!!))
-        val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("file", imageFile.name, requestBody)
-
-        ApiClient.instance.uploadImage(body).enqueue(object : Callback<UploadResponse> {
-            override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
-                if (response.isSuccessful) {
-                    // Use image_url instead of imageUrl
-                    val imageUrl = response.body()?.image_url ?: ""
-                    if (imageUrl.isNotEmpty()) {
-                        createNews(imageUrl)
-                    } else {
-                        Toast.makeText(context, "Failed to get image URL", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(context, "Failed to upload image", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
-                Toast.makeText(context, "Image upload failed: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 
     private fun createNews(imageUrl: String) {
@@ -131,7 +133,7 @@ class FragmentAddNews : Fragment() {
             id = 0,
             title = binding.NewsNameInput.text.toString(),
             content = binding.NewsDescriptionInput.text.toString(),
-            image_url = imageUrl,  // Consistently use image_url
+            image_url = imageUrl,
             timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
         )
 
@@ -168,15 +170,26 @@ class FragmentAddNews : Fragment() {
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
 
-            // Gunakan Glide untuk memuat gambar
-            Glide.with(this)
-                .load(selectedImageUri)
-                .into(binding.selectedImageView)
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ),
+                STORAGE_PERMISSION_CODE
+            )
         }
     }
 

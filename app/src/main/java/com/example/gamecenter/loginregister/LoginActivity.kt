@@ -20,6 +20,14 @@ import com.example.gamecenter.database.model.User
 import com.example.gamecenter.pengunjung.UserActivity
 
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        const val PREF_NAME = "UserPrefs"
+        const val KEY_USER_ID = "USER_ID"
+        const val KEY_USER_NAME = "USER_NAME"
+        const val KEY_USER_EMAIL = "USER_EMAIL"
+        const val KEY_USER_ROLE = "USER_ROLE"
+    }
+
     private val apiService = ApiClient.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +77,14 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT)
                         .show()
 
-                    // Setelah login berhasil, panggil API untuk mendapatkan data pengguna
+                    // Simpan user ID dari response login
+                    val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                    sharedPreferences.edit().apply {
+                        putInt("USER_ID", userResponse.user_id ?: -1)
+                        apply()
+                    }
+
+                    // Ambil data user lengkap
                     getUserDataFromApi(email)
 
                     // Navigasi berdasarkan role
@@ -108,10 +123,13 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val user = response.body()?.firstOrNull()
 
-                    // Simpan full_name ke SharedPreferences
-                    val sharedPreferences = getSharedPreferences("LuminaryPrefs", MODE_PRIVATE)
+                    // Simpan data user ke SharedPreferences - KODE BARU
+                    val sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
                     sharedPreferences.edit().apply {
-                        putString("USER_NAME", user?.full_name)
+                        putInt(KEY_USER_ID, user?.id ?: -1)
+                        putString(KEY_USER_NAME, user?.full_name)
+                        putString(KEY_USER_EMAIL, user?.email)
+                        putString(KEY_USER_ROLE, user?.role)
                         apply()
                     }
                 } else {

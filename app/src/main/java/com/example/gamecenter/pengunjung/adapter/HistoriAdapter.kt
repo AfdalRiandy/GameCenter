@@ -26,9 +26,9 @@ class HistoriAdapter(private val historiList: List<BookingHistory>) :
             orderTime.text = "${booking.duration} jam"
             orderDate.text = booking.createAt
 
+            val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"
             Glide.with(itemView.context)
-                .load(booking.imageUrl)
-                .placeholder(R.drawable.ic_image)
+                .load(imageUrl + booking.imageUrl)
                 .into(orderImage)
         }
     }
