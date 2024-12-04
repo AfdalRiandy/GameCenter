@@ -42,6 +42,8 @@
         <activity android:name=".loginregister.RegisterActivity"
             android:exported="false"/>
         <activity android:name=".loginregister.LoginActivity"
+            android:exported="false"/>
+        <activity android:name=".SplashscreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
