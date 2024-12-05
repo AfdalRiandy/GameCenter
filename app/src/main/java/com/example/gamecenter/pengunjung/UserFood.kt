@@ -24,17 +24,14 @@ class UserFood : AppCompatActivity(), FoodAdapter.OnBookClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.food_list)
 
-        // Initialize RecyclerView
         foodRecyclerView = findViewById(R.id.foodRecyclerView)
         foodRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Initialize Toolbar
         val backButton = findViewById<android.widget.ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             onBackPressed()
         }
 
-        // Fetch foods from API
         fetchFoods()
     }
 

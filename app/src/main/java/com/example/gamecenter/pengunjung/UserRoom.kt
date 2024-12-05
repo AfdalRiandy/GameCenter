@@ -23,17 +23,14 @@ class UserRoom : AppCompatActivity(), RoomAdapter.OnBookClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.room_list)
 
-        // Initialize RecyclerView
         roomRecyclerView = findViewById(R.id.roomRecyclerView)
         roomRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Initialize Toolbar
         val backButton = findViewById<android.widget.ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             onBackPressed()
         }
 
-        // Fetch rooms from API
         fetchRooms()
     }
 

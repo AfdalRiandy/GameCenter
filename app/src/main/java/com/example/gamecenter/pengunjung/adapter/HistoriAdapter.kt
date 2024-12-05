@@ -17,13 +17,11 @@ class HistoriAdapter(private val historiList: List<BookingHistory>) :
         val orderImage: ImageView = itemView.findViewById(R.id.orderImage)
         val orderDescription: TextView = itemView.findViewById(R.id.orderDescription)
         val orderPrice: TextView = itemView.findViewById(R.id.orderPrice)
-        val orderTime: TextView = itemView.findViewById(R.id.orderTime)
         val orderDate: TextView = itemView.findViewById(R.id.orderDate)
 
         fun bind(booking: BookingHistory) {
-            orderDescription.text = "Telah memesan ${booking.roomName}"
+            orderDescription.text = booking.roomName
             orderPrice.text = "Rp. ${booking.totalPrice}"
-            orderTime.text = "${booking.duration} jam"
             orderDate.text = booking.createAt
 
             val imageUrl = "http://10.0.2.2/gamecenter_api/uploads/"

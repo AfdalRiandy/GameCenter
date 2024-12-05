@@ -18,27 +18,20 @@ class AdminHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAdminHomeBinding.inflate(inflater, container, false)
-
-        // Set click listeners for the buttons
         binding.roomMenuButton.setOnClickListener {
-            // Navigate to AdminRoom Fragment
             loadFragment(AdminRoom())
         }
-
         binding.foodMenuButton.setOnClickListener {
-            // Navigate to AdminFood Fragment
             loadFragment(AdminFood())
         }
-
         return binding.root
     }
 
     private fun loadFragment(fragment: Fragment) {
-        // Replace the current fragment with the new one
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment) // Ensure this ID matches the container ID in your activity layout
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) // Optional for a smooth transition animation
-            .addToBackStack(null) // Optional, to allow the user to navigate back
+            .replace(R.id.fragmentContainer, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
             .commit()
     }
 }

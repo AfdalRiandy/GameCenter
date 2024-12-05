@@ -14,10 +14,8 @@ class UserActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Load the default fragment
         loadFragment(UserHomeFragment())
 
-        // Set up BottomNavigationView
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {

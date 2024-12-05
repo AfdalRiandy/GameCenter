@@ -106,7 +106,9 @@
                 app:icon="@drawable/room"
                 app:iconGravity="textTop"
                 app:iconTint="@null"
-                app:iconPadding="8dp"/>
+                app:iconPadding="8dp"
+                app:iconSize="48dp" />
+
         </androidx.cardview.widget.CardView>
 
         <!-- Food Button -->
@@ -130,7 +132,9 @@
                 app:icon="@drawable/food"
                 app:iconGravity="textTop"
                 app:iconTint="@null"
-                app:iconPadding="8dp"/>
+                app:iconPadding="8dp"
+                app:iconSize="48dp" />
+
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

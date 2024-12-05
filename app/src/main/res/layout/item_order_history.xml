@@ -61,20 +61,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="4dp">
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_clock" />
-
-                <TextView
-                    android:id="@+id/orderTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2 jam"
-                    android:textSize="12sp"
-                    android:textColor="@color/gray"
-                    android:fontFamily="@font/poppins_regular"
-                    android:layout_marginStart="4dp" />
             </LinearLayout>
 
             <TextView
@@ -85,6 +71,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/gray"
                 android:fontFamily="@font/poppins_regular" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

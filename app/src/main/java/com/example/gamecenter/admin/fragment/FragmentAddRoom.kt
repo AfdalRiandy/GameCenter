@@ -16,11 +16,8 @@ import com.example.gamecenter.database.model.RoomResponse
 import com.example.gamecenter.database.model.UploadResponse
 import com.example.gamecenter.databinding.FragmentAddRoomBinding
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -44,7 +41,6 @@ class FragmentAddRoom : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate binding
         binding = FragmentAddRoomBinding.inflate(inflater, container, false)
 
         roomNameInput = binding.roomNameInput
@@ -77,14 +73,13 @@ class FragmentAddRoom : Fragment() {
     }
 
     private fun pickImage() {
-        // Open image picker functionality
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             val imageUri = data.data
             selectedImageView.setImageURI(imageUri)
             uploadImageButton.visibility = View.GONE
@@ -95,45 +90,83 @@ class FragmentAddRoom : Fragment() {
 
     private fun uploadImage(imageUri: Uri?) {
         if (imageUri != null) {
-            val file = File(getRealPathFromURI(imageUri))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+            val filePath = getRealPathFromURI(imageUri)
+            if (filePath.isNotEmpty()) {
+                val file = File(filePath)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-            val apiService = ApiClient.instance
-            val call = apiService.uploadImage(body)
-            call.enqueue(object : Callback<UploadResponse> {
-                override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        // Simpan nama file sebagai URL gambar
-                        selectedImageUrl = response.body()?.image_url
-                        Toast.makeText(context, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
+                val apiService = ApiClient.instance
+                val call = apiService.uploadImage(body)
+                call.enqueue(object : Callback<UploadResponse> {
+                    override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
+                        if (response.isSuccessful && response.body()?.success == true) {
+                            selectedImageUrl = response.body()?.image_url
+                            Toast.makeText(context, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
-                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                Toast.makeText(context, "Path gambar tidak valid", Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(context, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun createRoom() {
-        val roomName = roomNameInput.text.toString()
-        val roomDescription = roomDescriptionInput.text.toString()
-        val roomPrice = roomPriceInput.text.toString().toDouble()
+        val roomName = roomNameInput.text.toString().trim()
+        val roomDescription = roomDescriptionInput.text.toString().trim()
+        val roomPriceText = roomPriceInput.text.toString().trim()
 
-        // Corrected reference to ApiClient.instance
+        if (roomName.isEmpty()) {
+            roomNameInput.error = "Nama room tidak boleh kosong"
+            roomNameInput.requestFocus()
+            return
+        }
+
+        if (roomDescription.isEmpty()) {
+            roomDescriptionInput.error = "Deskripsi room tidak boleh kosong"
+            roomDescriptionInput.requestFocus()
+            return
+        }
+
+        if (roomPriceText.isEmpty()) {
+            roomPriceInput.error = "Harga room tidak boleh kosong"
+            roomPriceInput.requestFocus()
+            return
+        }
+
+        val roomPrice: Double
+        try {
+            roomPrice = roomPriceText.toDouble()
+        } catch (e: NumberFormatException) {
+            roomPriceInput.error = "Harga harus berupa angka"
+            roomPriceInput.requestFocus()
+            return
+        }
+
+        if (selectedImageUrl == null) {
+            Toast.makeText(context, "Harap unggah gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val apiService = ApiClient.instance
         val call = apiService.addRoom(roomName, roomDescription, roomPrice, selectedImageUrl)
         call.enqueue(object : Callback<RoomResponse> {
             override fun onResponse(call: Call<RoomResponse>, response: Response<RoomResponse>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && response.body()?.success == true) {
                     Toast.makeText(context, "Room added successfully", Toast.LENGTH_SHORT).show()
-                    // Redirect or update UI
+                    // Navigasi kembali ke fragment sebelumnya
+                    requireActivity().onBackPressed()
+                    // Atau menggunakan popBackStack
+                    // parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(context, "Failed to add room", Toast.LENGTH_SHORT).show()
                 }
@@ -145,14 +178,17 @@ class FragmentAddRoom : Fragment() {
         })
     }
 
-
     private fun getRealPathFromURI(uri: Uri): String {
-        val cursor = activity?.contentResolver?.query(uri, null, null, null, null)
-        cursor?.moveToFirst()
-        val columnIndex = cursor?.getColumnIndex(MediaStore.Images.Media.DATA)
-        val filePath = cursor?.getString(columnIndex ?: 0)
-        cursor?.close()
-        return filePath ?: ""
+        var realPath = ""
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = activity?.contentResolver?.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                realPath = it.getString(columnIndex)
+            }
+        }
+        return realPath
     }
 
     companion object {

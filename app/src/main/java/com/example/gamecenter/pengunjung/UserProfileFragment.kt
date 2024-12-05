@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.gamecenter.AboutActivity
-import com.example.gamecenter.EditProfileActivity
 import com.example.gamecenter.R
 import com.example.gamecenter.database.api.ApiClient
 import com.example.gamecenter.database.model.User
@@ -38,15 +37,12 @@ class UserProfileFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Mengambil email yang disimpan di SharedPreferences setelah login
         val email = getLoggedInUserEmail()
 
-        // Jika email tidak kosong, lakukan pemanggilan API untuk mendapatkan data pengguna
         if (email.isNotEmpty()) {
-            loadUserData(email) // Panggil API untuk mendapatkan data pengguna berdasarkan email
+            loadUserData(email)
         }
 
-        // Set up the logout button click listener
         binding.btnLogout.setOnClickListener {
             showLogoutDialog()
         }

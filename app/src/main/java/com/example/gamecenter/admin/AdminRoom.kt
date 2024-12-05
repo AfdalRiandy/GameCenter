@@ -36,18 +36,14 @@ class AdminRoom : Fragment() {
         setupRecyclerView()
         setupBackButton()
 
-        // Tombol Add Room
         addRoomButton = binding.addRoomButton
         addRoomButton.setOnClickListener {
-            // Pindah ke FragmentAddRoom
             val fragment = FragmentAddRoom()
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentContainer, fragment)  // Ganti dengan ID container activity Anda
-            transaction.addToBackStack(null)  // Menambahkan fragment ke backstack agar bisa kembali
+            transaction.replace(R.id.fragmentContainer, fragment)
+            transaction.addToBackStack(null)
             transaction.commit()
         }
-
-        // Ambil data rooms dari API
         loadRoom()
     }
 
@@ -94,7 +90,6 @@ class AdminRoom : Fragment() {
             }
         })
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

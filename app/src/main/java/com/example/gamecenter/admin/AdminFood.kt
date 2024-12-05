@@ -35,10 +35,8 @@ class AdminFood : Fragment() {
         setupRecyclerView()
         setupBackButton()
 
-        // Tombol Add Food
         addFoodButton = binding.addFoodButton
         addFoodButton.setOnClickListener {
-            // Pindah ke FragmentAddFood
             val fragment = FragmentAddFood()
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragmentContainer, fragment)  // Ganti dengan ID container activity Anda
@@ -46,7 +44,6 @@ class AdminFood : Fragment() {
             transaction.commit()
         }
 
-        // Ambil data foods dari API
         loadFoods()
     }
 
@@ -58,8 +55,8 @@ class AdminFood : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        foodAdapter = FoodAdapter()  // Memperbaiki instansiasi foodAdapter
-        binding.FoodRecyclerView.apply {  // Ganti recyclerViewFood ke FoodRecyclerView
+        foodAdapter = FoodAdapter()
+        binding.FoodRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = foodAdapter
         }

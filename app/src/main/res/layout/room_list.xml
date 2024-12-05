@@ -38,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:text="Room Reservasi"
                 android:textSize="20sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/royal_blue"
+                android:fontFamily="@font/poppins_bold"
                 android:layout_marginStart="16dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

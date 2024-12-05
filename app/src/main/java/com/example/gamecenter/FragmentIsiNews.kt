@@ -21,29 +21,33 @@ class FragmentIsiNews : Fragment() {
     ): View {
         binding = FragmentIsiNewsBinding.inflate(inflater, container, false)
 
-        // Retrieve arguments passed from NewsAdapter
         val title = arguments?.getString("NEWS_TITLE", "")
         val date = arguments?.getString("NEWS_DATE", "")
         val content = arguments?.getString("NEWS_CONTENT", "")
         val imageUrl = arguments?.getString("NEWS_IMAGE_URL", "")
 
-        // Set the retrieved data to views
         binding.newsJudul.text = title
         binding.newsTanggal.text = date
         binding.newsContent.text = content
 
-        // Load image using Glide
         val fullImageUrl = "http://10.0.2.2/gamecenter_api/uploads/$imageUrl"
         Glide.with(requireContext())
             .load(fullImageUrl)
             .into(binding.newsImage)
 
-        // Set click listener for full image view
         binding.newsImage.setOnClickListener {
             showFullImageDialog(fullImageUrl)
         }
 
+        setupBackButton()
+
         return binding.root
+    }
+
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun showFullImageDialog(imageUrl: String) {
@@ -65,7 +69,9 @@ class FragmentIsiNews : Fragment() {
             dialog.dismiss()
         }
 
+
         // Show the dialog
         dialog.show()
+
     }
 }

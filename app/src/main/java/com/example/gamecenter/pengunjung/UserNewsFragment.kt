@@ -22,9 +22,9 @@ import retrofit2.Response
 class UserNewsFragment : Fragment(R.layout.fragment_pengunjung_news) {
 
     private var _binding: FragmentPengunjungNewsBinding? = null
-    private val binding get() = _binding!! // This is the binding reference
+    private val binding get() = _binding!!
     private lateinit var newsAdapter: NewsAdapter
-    private var allNewsList: List<News> = mutableListOf() // This will hold the full list of news
+    private var allNewsList: List<News> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +37,8 @@ class UserNewsFragment : Fragment(R.layout.fragment_pengunjung_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up RecyclerView
         newsAdapter = NewsAdapter(parentFragmentManager)
-        binding.rvNews.apply { // Use 'rvNews' from the XML layout
+        binding.rvNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter
         }

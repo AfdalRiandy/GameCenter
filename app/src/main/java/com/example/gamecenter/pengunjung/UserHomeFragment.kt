@@ -27,25 +27,19 @@ class UserHomeFragment : Fragment(R.layout.fragment_pengunjung_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the user name TextView
         userNameTextView = view.findViewById(R.id.userName)
 
-        // Get the user name from SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences("GameCenterPrefs", Context.MODE_PRIVATE)
-        val userName = sharedPreferences.getString("USER_NAME", "User")  // Default to "User" if no name found
+        val userName = sharedPreferences.getString("USER_NAME", "User")
 
-        // Display the user name
         userNameTextView.text = "$userName"
 
-        // Initialize RecyclerView for news
         val newsRecyclerView = view.findViewById<RecyclerView>(R.id.newsRecyclerView)
         newsRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        // Pass parentFragmentManager when creating NewsAdapter
         newsAdapter = NewsAdapter(parentFragmentManager)
         newsRecyclerView.adapter = newsAdapter
 
-        // Load the news from the API
         loadNews()
 
         // Room service card listener

@@ -79,9 +79,4 @@ interface ApiService {
     @POST("add_news.php")
     fun addNews(@Body news: News): Call<NewsResponse>
 
-    @GET("get_room_bookings.php")
-    fun getRoomBookings(): Call<List<RoomBooking>>
-
-    @GET("get_food_bookings.php")
-    fun getFoodBookings(): Call<List<FoodBooking>>
 }

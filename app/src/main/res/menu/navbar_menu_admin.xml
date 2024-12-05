@@ -2,25 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/home"
+        android:icon="@drawable/adminhome"
         android:title="Home"
         android:background="@drawable/nav_background"/>
 
     <item
-        android:id="@+id/nav_analysis"
-        android:icon="@drawable/analysis"
-        android:title="Analysis"
-        android:background="@drawable/nav_background"/>
-
-    <item
         android:id="@+id/nav_news"
-        android:icon="@drawable/berita"
+        android:icon="@drawable/adminnews"
         android:title="News"
         android:background="@drawable/nav_background"/>
 
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/adminprofile"
         android:title="Settings"
         android:background="@drawable/nav_background"/>
 </menu>

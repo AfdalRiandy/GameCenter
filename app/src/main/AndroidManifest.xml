@@ -31,8 +31,6 @@
             android:exported="false"/>
         <activity android:name=".room.FoodDetailActivity"
             android:exported="false"/>
-        <activity android:name=".EditProfileActivity"
-            android:exported="false"/>
         <activity android:name=".room.UserRoom"
             android:exported="false"/>
         <activity android:name=".food.UserFood"

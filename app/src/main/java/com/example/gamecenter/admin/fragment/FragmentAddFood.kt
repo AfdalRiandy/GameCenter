@@ -30,6 +30,7 @@ import java.io.File
 
 class FragmentAddFood : Fragment() {
 
+
     private lateinit var binding: FragmentAddFoodBinding
     private lateinit var foodNameInput: TextInputEditText
     private lateinit var foodDescriptionInput: TextInputEditText
@@ -39,24 +40,20 @@ class FragmentAddFood : Fragment() {
     private lateinit var uploadImageButton: MaterialButton
 
     private var selectedImageUrl: String? = null
-    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate binding
         binding = FragmentAddFoodBinding.inflate(inflater, container, false)
 
-        // Initialize all views
         foodNameInput = binding.FoodNameInput
         foodDescriptionInput = binding.FoodDescriptionInput
         foodPriceInput = binding.FoodPriceInput
         selectedImageView = binding.selectedImageView
         createFoodButton = binding.createFoodButton
-        uploadImageButton = binding.uploadImageButton  // Add this line
+        uploadImageButton = binding.uploadImageButton
 
-        // Set up button listeners
         uploadImageButton.setOnClickListener {
             pickImage()
         }
@@ -81,44 +78,33 @@ class FragmentAddFood : Fragment() {
 
     private fun pickImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
-            selectedImageUri?.let { uri ->
-                // Set image to ImageView
-                selectedImageView.setImageURI(uri)
-                uploadImageButton.visibility = View.GONE
-                selectedImageView.visibility = View.VISIBLE
-
-                // Upload image
-                uploadImage(uri)
-            }
+            val imageUri = data.data
+            selectedImageView.setImageURI(imageUri)
+            uploadImageButton.visibility = View.GONE
+            selectedImageView.visibility = View.VISIBLE
+            uploadImage(imageUri)
         }
     }
 
     private fun uploadImage(imageUri: Uri?) {
         if (imageUri != null) {
-            try {
-                // Get the actual file path
-                val file = File(getRealPathFromURI(imageUri))
-
-                // Create RequestBody and MultipartBody.Part
-                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val filePath = getRealPathFromURI(imageUri)
+            if (filePath.isNotEmpty()) {
+                val file = File(filePath)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
                 val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-                // Call API to upload image
                 val apiService = ApiClient.instance
                 val call = apiService.uploadImage(body)
-
                 call.enqueue(object : Callback<UploadResponse> {
                     override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
                         if (response.isSuccessful && response.body()?.success == true) {
-                            // Save the image URL returned from the server
                             selectedImageUrl = response.body()?.image_url
                             Toast.makeText(context, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
                         } else {
@@ -130,49 +116,63 @@ class FragmentAddFood : Fragment() {
                         Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })
-            } catch (e: Exception) {
-                Toast.makeText(context, "Error processing image: ${e.message}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Path gambar tidak valid", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(context, "No image selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun createFood() {
-        // Validate inputs
         val foodName = foodNameInput.text.toString().trim()
         val foodDescription = foodDescriptionInput.text.toString().trim()
+        val foodPriceText = foodPriceInput.text.toString().trim()
 
-        // Validate that all fields are filled
-        if (foodName.isEmpty() || foodDescription.isEmpty() || foodPriceInput.text.isNullOrEmpty()) {
-            Toast.makeText(context, "Harap isi semua field", Toast.LENGTH_SHORT).show()
+        if (foodName.isEmpty()) {
+            foodNameInput.error = "Nama food tidak boleh kosong"
+            foodNameInput.requestFocus()
             return
         }
 
-        val foodPrice = try {
-            foodPriceInput.text.toString().toDouble()
+        if (foodDescription.isEmpty()) {
+            foodDescriptionInput.error = "Deskripsi food tidak boleh kosong"
+            foodDescriptionInput.requestFocus()
+            return
+        }
+
+        if (foodPriceText.isEmpty()) {
+            foodPriceInput.error = "Harga food tidak boleh kosong"
+            foodPriceInput.requestFocus()
+            return
+        }
+
+        val foodPrice: Double
+        try {
+            foodPrice = foodPriceText.toDouble()
         } catch (e: NumberFormatException) {
-            Toast.makeText(context, "Harga tidak valid", Toast.LENGTH_SHORT).show()
+            foodPriceInput.error = "Harga harus berupa angka"
+            foodPriceInput.requestFocus()
             return
         }
 
-        // Validate image is uploaded
-        if (selectedImageUrl.isNullOrEmpty()) {
-            Toast.makeText(context, "Harap upload gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
+        if (selectedImageUrl == null) {
+            Toast.makeText(context, "Harap unggah gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Proceed with food creation
         val apiService = ApiClient.instance
         val call = apiService.addFood(foodName, foodDescription, foodPrice, selectedImageUrl)
         call.enqueue(object : Callback<FoodResponse> {
             override fun onResponse(call: Call<FoodResponse>, response: Response<FoodResponse>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(context, "Makanan berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-                    // Optional: Clear inputs or navigate away
-                    clearInputs()
+                if (response.isSuccessful && response.body()?.success == true) {
+                    Toast.makeText(context, "Food added successfully", Toast.LENGTH_SHORT).show()
+                    // Navigasi kembali ke fragment sebelumnya
+                    requireActivity().onBackPressed()
+                    // Atau menggunakan popBackStack
+                    // parentFragmentManager.popBackStack()
                 } else {
-                    Toast.makeText(context, "Gagal menambahkan makanan", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to add food", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -182,25 +182,17 @@ class FragmentAddFood : Fragment() {
         })
     }
 
-    private fun clearInputs() {
-        foodNameInput.text?.clear()
-        foodDescriptionInput.text?.clear()
-        foodPriceInput.text?.clear()
-        selectedImageView.setImageURI(null)
-        selectedImageView.visibility = View.GONE
-        uploadImageButton.visibility = View.VISIBLE
-        selectedImageUrl = null
-        selectedImageUri = null
-    }
-
     private fun getRealPathFromURI(uri: Uri): String {
+        var realPath = ""
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = activity?.contentResolver?.query(uri, projection, null, null, null)
-        return cursor?.use {
-            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            it.moveToFirst()
-            it.getString(columnIndex)
-        } ?: ""
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                realPath = it.getString(columnIndex)
+            }
+        }
+        return realPath
     }
 
     companion object {
